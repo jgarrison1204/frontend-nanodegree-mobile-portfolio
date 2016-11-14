@@ -448,11 +448,27 @@ var resizePizzas = function(size) {
   }
 
   // Iterates through pizza elements on the page and changes their widths
+  //Code heavily borrowed from Udacity lesson. https://classroom.udacity.com/nanodegrees/nd001/parts/00113454012/modules/273584856175461/lessons/4147498575/concepts/41542085800923
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    switch(size){
+      case "1":
+        newWidth = 25;
+        break;
+      case "2":
+        newWidth = 33.3;
+        break;
+      case "3":
+        newWidth = 50;
+        break;
+      default:
+      console.log("bug in changePizzaSizes");
+    }
+
+    //Class selector used to optimize retrival time by being specific
+    var randomPizzas = document.getElementsByClassName("randomPizzaContainer");
+
+    for (var i = 0, counter = randomPizzas.length; i < counter; i++) {
+      randomPizzas[i].style.width = newWidth + "%";
     }
   }
 
