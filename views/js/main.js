@@ -512,16 +512,31 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
+//Coerce DOM collection into an array
+function getDomNodeArray(selector) {
+  // get the elements as a DOM collection
+  var elemCollection = document.querySelectorAll(selector);
+
+  // coerce the DOM collection into an array
+  var elemArray = Array.prototype.slice.apply(elemCollection);
+
+  return elemArray;
+};
+
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-  }
+  //This block of code is causing forced synchonous layout.
+
+  //Access the layout change outside the loop per this video https://classroom.udacity.com/nanodegrees/nd001/parts/00113454012/modules/273584856175461/lessons/4147498575/concepts/41807488220923
+  var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+  
+  var domArray = getDomNodeArray('.mover');
+  domArray.forEach(function(mover){
+    mover.style.left = mover.basicLeft + 100 * phase + 'px';
+  })
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
