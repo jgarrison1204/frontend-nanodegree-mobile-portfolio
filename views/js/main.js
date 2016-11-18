@@ -531,10 +531,14 @@ function updatePositions() {
   //This block of code is causing forced synchonous layout.
 
   //Access the layout change outside the loop per this video https://classroom.udacity.com/nanodegrees/nd001/parts/00113454012/modules/273584856175461/lessons/4147498575/concepts/41807488220923
-  var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+  //Takes scrolling out of loop so DOM is not accessed inside loop.
+  var dyanmicPosition = document.body.scrollTop / 1250;
   
   var domArray = getDomNodeArray('.mover');
-  domArray.forEach(function(mover){
+
+  domArray.forEach(function(mover, index){
+    var phase = Math.sin((dyanmicPosition) + (index % 5));
+    console.log(phase);
     mover.style.left = mover.basicLeft + 100 * phase + 'px';
   })
 
