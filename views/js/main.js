@@ -538,7 +538,6 @@ function updatePositions() {
 
   domArray.forEach(function(mover, index){
     var phase = Math.sin((dyanmicPosition) + (index % 5));
-    console.log(phase);
     mover.style.left = mover.basicLeft + 100 * phase + 'px';
   })
 
@@ -559,7 +558,13 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  //Added dynamic pizza counter based on reviewer suggestion. Used this discussion to help https://discussions.udacity.com/t/calculating-number-of-pizzas-with-inner-height/35343/9
+  var dyanmicColumns = Math.ceil(window.innerWidth / s);
+  var dyanmicRows = Math.ceil(window.innerHeight / s);
+  var pizzaCounter = dyanmicColumns * dyanmicRows;
+  var cols = dyanmicColumns;
+
+  for (var i = 0; i < pizzaCounter; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
